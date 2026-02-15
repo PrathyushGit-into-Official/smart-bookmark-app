@@ -92,92 +92,102 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center text-gray-500">
-        Loading...
+      <div className="flex h-screen items-center justify-center text-slate-500 text-lg">
+        Loading dashboard...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 px-6">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-slate-100 py-10 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
 
-        {/* Top Header */}
-        <div className="flex justify-between items-center mb-12">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-6">
           <div>
             <h1 className="text-4xl font-bold text-slate-800">
               Smart Bookmark
             </h1>
-            <p className="text-slate-500 mt-1">
-              Logged in as {user?.email}
+            <p className="text-slate-500 mt-2 text-sm">
+              Logged in as <span className="font-medium">{user?.email}</span>
             </p>
           </div>
 
           <button
             onClick={logout}
-            className="bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-red-600 transition"
+            className="bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-red-600 transition shadow-sm"
           >
             Logout
           </button>
         </div>
 
-        {/* Add Card */}
-        <div className="bg-white shadow-lg rounded-3xl p-8 mb-12 border border-slate-100">
+        {/* Add Bookmark Card */}
+        <div className="bg-white shadow-xl rounded-3xl p-8 mb-12 border border-slate-100">
           <h2 className="text-xl font-semibold mb-6 text-slate-700">
             Add New Bookmark
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             <input
               placeholder="Title"
-              className="border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className="border border-slate-300 rounded-xl px-4 py-3 
+                         bg-white text-slate-800 placeholder-slate-400
+                         shadow-sm focus:ring-2 focus:ring-indigo-500 
+                         focus:border-indigo-500 outline-none transition"
             />
+
             <input
               placeholder="https://example.com"
-              className="border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              className="border border-slate-300 rounded-xl px-4 py-3 
+                         bg-white text-slate-800 placeholder-slate-400
+                         shadow-sm focus:ring-2 focus:ring-indigo-500 
+                         focus:border-indigo-500 outline-none transition"
             />
+
             <button
               onClick={addBookmark}
               disabled={adding}
-              className="bg-indigo-600 text-white rounded-xl py-3 hover:bg-indigo-700 transition disabled:opacity-50"
+              className="bg-indigo-600 text-white rounded-xl py-3 hover:bg-indigo-700 transition shadow-sm disabled:opacity-50"
             >
-              {adding ? "Adding..." : "Add"}
+              {adding ? "Adding..." : "Add Bookmark"}
             </button>
           </div>
         </div>
 
         {/* Bookmark Grid */}
         {bookmarks.length === 0 ? (
-          <div className="text-center text-slate-400">
+          <div className="text-center text-slate-400 text-lg">
             No bookmarks yet.
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {bookmarks.map((b) => (
               <div
                 key={b.id}
-                className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition border border-slate-100"
+                className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition border border-slate-100 flex flex-col justify-between"
               >
-                <a
-                  href={b.url}
-                  target="_blank"
-                  className="text-lg font-semibold text-indigo-600 hover:underline"
-                >
-                  {b.title}
-                </a>
+                <div>
+                  <a
+                    href={b.url}
+                    target="_blank"
+                    className="text-lg font-semibold text-indigo-600 hover:underline break-words"
+                  >
+                    {b.title}
+                  </a>
 
-                <p className="text-sm text-slate-400 mt-2 truncate">
-                  {b.url}
-                </p>
+                  <p className="text-sm text-slate-400 mt-2 break-words">
+                    {b.url}
+                  </p>
+                </div>
 
-                <div className="mt-4 flex justify-end">
+                <div className="mt-6 flex justify-end">
                   <button
                     onClick={() => deleteBookmark(b.id)}
-                    className="text-sm text-red-500 hover:text-red-700"
+                    className="text-sm text-red-500 hover:text-red-700 transition"
                   >
                     Delete
                   </button>
